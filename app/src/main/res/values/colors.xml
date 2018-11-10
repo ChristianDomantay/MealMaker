@@ -2,13 +2,18 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#000000</color>
 
     <color name="REDprimaryColor">#d32f2f</color>
     <color name="REDprimaryLightColor">#ff6659</color>
     <color name="REDprimaryDarkColor">#9a0007</color>
-    <color name="REDprimaryTextColor">#ffffff</color>
-    <color name="black">#000</color>
-</resources>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="searchBtn">#43425D</color>
 
+
+    <color name="MaroonPrimaryColor">#7b1f1d</color>
+    <color name="MaroonPrimaryLightColor">#af4d44</color>
+    <color name="MaroonPrimaryDarkColor">#4a0000</color>
+</resources>
 
