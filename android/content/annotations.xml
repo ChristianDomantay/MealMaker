@@ -1,0 +1,5 @@
+<root>
+    <item name='android.content.Intent java.io.Serializable getSerializableExtra(java.lang.String)'>
+        <annotation name='java.lang.Deprecated' />
+    </item>
+</root>

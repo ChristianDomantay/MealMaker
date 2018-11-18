@@ -71,7 +71,7 @@ public class Main2Activity extends AppCompatActivity {
 
                         for (table.moveToFirst(); !table.isAfterLast(); table.moveToNext()) {
                             // do what you need with the cursor here
-                            String title= table.getString(1);
+                            String title= table.getString(0);
                             String name = table.getString(2);
                             for(int b=0;b<counta;b++){
                                 if(name.contains(addArray.get(b).toLowerCase())){

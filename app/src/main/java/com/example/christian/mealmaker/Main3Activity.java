@@ -52,7 +52,7 @@ public class Main3Activity extends AppCompatActivity {
         }
        ArrayAdapter<String> adapter = new ArrayAdapter<String>(Main3Activity.this,android.R.layout.simple_list_item_1, validid);
         show.setAdapter(adapter);
-        String [] mThumbIds = new String[validid.size()];
+        Integer [] mThumbIds = new Integer[validid.size()];
 
 
 
@@ -72,11 +72,10 @@ public class Main3Activity extends AppCompatActivity {
 
 
         for(int b=0;b<size;b++){
-            String  name= "C:\\Users\\christian\\AndroidStudioProjects\\MealMaker\\app\\src\\main\\res\\drawable\\"+validid.get(b)+".jpg";
 
-            //String  name= "R.drawable."+validid.get(b);
-            //mThumbIds[b]=Integer.parseInt(name);
-            mThumbIds[b]= name;
+           String  name= validid.get(b);
+           mThumbIds[b]=Integer.parseInt(name);
+
 
         }
 

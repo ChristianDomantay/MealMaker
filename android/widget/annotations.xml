@@ -1,0 +1,5 @@
+<root>
+    <item name='android.widget.Toast void setGravity(int, int, int)'>
+        <annotation name='java.lang.Deprecated' />
+    </item>
+</root>

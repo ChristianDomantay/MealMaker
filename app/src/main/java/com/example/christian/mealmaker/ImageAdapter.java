@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-
+import android.support.v4.widget.DrawerLayout;
 import java.util.ArrayList;
 
 import static android.app.PendingIntent.getActivity;
@@ -24,24 +24,27 @@ import static java.security.AccessController.getContext;
 
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
-    String[] validid;
+    Integer[] validid;
     int size;
-  //  ArrayList<String> validid = (ArrayList<String>) getIntent().getSerializableExtra("validid");
-  //  ArrayList<String> names = new ArrayList<String>();
- //   private String[] mthumbsid ={};
+      Integer[] fin;
 
 
 
-    public ImageAdapter(Context c,String[] myArrayList) {
+    public ImageAdapter(Context c,Integer[] myArrayList) {
         mContext = c;
-         mThumbIds= myArrayList;
+         validid= myArrayList;
         size= myArrayList.length;
-
+        fin = new Integer[size];
+        for(int b=0;b<size;b++){
+            int num = validid[b];
+            num = num-1;
+            fin[b] = mThumbIds[num];
+        }
 
     }
 
     public int getCount() {
-        return mThumbIds.length;
+        return fin.length;
     }
 
     public Object getItem(int position) {
@@ -54,14 +57,6 @@ public class ImageAdapter extends BaseAdapter {
 
     // create a new ImageView for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
-
-     //   int size = validid.size();
-
-     //   for(int b=0;b<size;b++){
-      //      String  name= "  R.drawable."+ validid.get(b);
-      //      mThumbIds[b]=Integer.parseInt(name);
-
-     //   }
 
         ImageView imageView;
         if (convertView == null) {
@@ -77,24 +72,31 @@ public class ImageAdapter extends BaseAdapter {
 
 
      //   Drawable myimage = getActivity().getResources();
-          //  imageView.toString(mThumbIds);
-
-
-
-
-
-
+            imageView.setImageResource(fin[position]);
         return imageView;
     }
 
 
 
 
-    private String[] mThumbIds = {
-
-    };
-    private Integer[] mThumbId = {
-
+    private Integer[] mThumbIds = {
+            R.drawable.chickencurry, R.drawable.chickenadobo,
+            R.drawable.chickenmacaronisalad,R.drawable.pinoybeefsteak,
+            R.drawable.chickentinola, R.drawable.chickenhamonado,
+            R.drawable.chickenalaking, R.drawable.buffalochickenwing,
+            R.drawable.chickencordonbleu , R.drawable.chickeninasalbbq,
+            R.drawable.crispypata, R.drawable.bicolexpress,
+            R.drawable.longganisa, R.drawable.sisig,
+            R.drawable.calderetangbaboy, R.drawable.lecheflan,
+            R.drawable.ginataangmais, R.drawable.putobumbong,
+            R.drawable.ubehalaya, R.drawable.yema,
+            R.drawable.bibingkanggalapong, R.drawable.bananalumpia,
+            R.drawable.karekare, R.drawable.nilagangbaka,
+            R.drawable.bulalo, R.drawable.ginataanggulay,
+            R.drawable.adobongsitaw, R.drawable.chopsuey,
+            R.drawable.salmonsinigang, R.drawable.sinigangnabangus ,
+            R.drawable.seafoodsinigang, R.drawable.sinigangnababoy ,
+            R.drawable.sinigangnasalmonsamiso
     };
     // references to our images
 
