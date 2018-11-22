@@ -26,7 +26,7 @@ public class ImageAdapter extends BaseAdapter {
     private Context mContext;
     Integer[] validid;
     int size;
-      Integer[] fin;
+      public Integer[] fin;
 
 
 
@@ -42,6 +42,7 @@ public class ImageAdapter extends BaseAdapter {
         }
 
     }
+
 
     public int getCount() {
         return fin.length;
