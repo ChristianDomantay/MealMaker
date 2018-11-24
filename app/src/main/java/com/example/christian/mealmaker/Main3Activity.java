@@ -66,13 +66,7 @@ public class Main3Activity extends AppCompatActivity {
         validstep = (ArrayList<String>) getIntent().getSerializableExtra("validstep");
         validimage = (ArrayList<String>) getIntent().getSerializableExtra("validimage");
        int size = validid.size();
-        if(size==0){
-            Toast.makeText(getBaseContext(), "arrayempty",
-                    Toast.LENGTH_LONG).show();
-        }
-            else{  Toast.makeText(getBaseContext(), "arrayhasvalue",
-                Toast.LENGTH_LONG).show();
-        }
+
         final Integer [] mThumbIds = new Integer[validid.size()];
          name = new String[validname.size()];
         ingredient = new String[validingredient.size()];
