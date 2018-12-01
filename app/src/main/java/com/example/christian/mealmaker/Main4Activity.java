@@ -5,22 +5,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Main4Activity extends AppCompatActivity {
+
+
     ImageView selectedImage;
     TextView name,ingredient,step;
     ListView list;
     ArrayList<String> ing = new ArrayList<String>();
     String[] in;
-    String n,i,s;
+    String n,i,s,vi,l;
     int im;
     ImageButton closebutton,menu;
     @Override
@@ -30,19 +35,18 @@ public class Main4Activity extends AppCompatActivity {
         setContentView(R.layout.activity_main4);
         menu = (ImageButton) findViewById(R.id.imageView2);
         closebutton = (ImageButton) findViewById(R.id.closebtn);
-      //  step = (TextView) findViewById(R.id.step);
-       // ingredient = (TextView) findViewById(R.id.ingredient);
         name = (TextView) findViewById(R.id.name);
         list = (ListView) findViewById(R.id.list);
         selectedImage = (ImageView) findViewById(R.id.selectedImage); // init a ImageView
         Intent intent = getIntent(); // get Intent which we set from Previous Activity
         selectedImage.setImageResource(intent.getIntExtra("image", 0));
         name.setText(intent.getStringExtra("name"));
-       // ingredient.setText(intent.getStringExtra("ingredient"));
         im =intent.getIntExtra("image", 0);
         n =  intent.getStringExtra("name");
         i =  intent.getStringExtra("ingredient");
         s =  intent.getStringExtra("step");
+        vi =  intent.getStringExtra("video");
+        l =  intent.getStringExtra("link");
         String str = intent.getStringExtra("ingredient");
         String [] away =  str.split("\\s*%\\s*");
 
@@ -55,8 +59,7 @@ public class Main4Activity extends AppCompatActivity {
         {
             public void onClick(View v)
             {
-                Intent intent = new Intent(v.getContext(), Main2Activity.class);
-                startActivityForResult(intent, 0);
+                finish();
             }
         });
 
@@ -67,10 +70,11 @@ public class Main4Activity extends AppCompatActivity {
 
                 Intent intent = new Intent(Main4Activity.this, Main5Activity.class);
                 intent.putExtra("image",im); // put image data in Intent
-
                 intent.putExtra("name",n);
                 intent.putExtra("ingredient",i);
                 intent.putExtra("step",s);
+                intent.putExtra("video",vi);
+                intent.putExtra("link",l);
                 startActivity(intent); // start Intent
 
             }

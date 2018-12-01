@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 
 import static android.app.PendingIntent.getActivity;
@@ -60,22 +62,28 @@ public class ImageAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ImageView imageView;
+
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
             imageView = new ImageView(mContext);
+
             //size of image
 
             imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 450));
             imageView.requestLayout();
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setPadding(8, 8, 8, 8);
+
+
         } else {
             imageView = (ImageView) convertView;
+
         }
 
 
      //   Drawable myimage = getActivity().getResources();
             imageView.setImageResource(fin[position]);
+
         return imageView;
     }
 

@@ -46,8 +46,8 @@ public class Main3Activity extends AppCompatActivity {
             R.drawable.sinigangnasalmonsamiso
     };
     public Integer[] fin;
-    public ArrayList<String> validname,validingredient,validstep,validimage,validid;
-    String [] name,ingredient,step,image,vid;
+    public ArrayList<String> validname,validingredient,validstep,validimage,validid,validvideo,validlink;
+    String [] name,ingredient,step,image,vid,video,lin;
     //static final Integer[] mThumbIds = new Integer[]{};
     @SuppressWarnings("deprecation")
     @Override
@@ -57,7 +57,6 @@ public class Main3Activity extends AppCompatActivity {
         setContentView(R.layout.activity_main3);
         Bundle extras = getIntent().getExtras();
         if (extras == null) return;
-
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         closebutton = (ImageButton) findViewById(R.id.closebtn);
         validid = (ArrayList<String>) getIntent().getSerializableExtra("validid");
@@ -65,56 +64,48 @@ public class Main3Activity extends AppCompatActivity {
         validingredient = (ArrayList<String>) getIntent().getSerializableExtra("validingredient");
         validstep = (ArrayList<String>) getIntent().getSerializableExtra("validstep");
         validimage = (ArrayList<String>) getIntent().getSerializableExtra("validimage");
+        validvideo = (ArrayList<String>) getIntent().getSerializableExtra("validvideo");
+        validlink = (ArrayList<String>) getIntent().getSerializableExtra("validlink");
        int size = validid.size();
 
         final Integer [] mThumbIds = new Integer[validid.size()];
-         name = new String[validname.size()];
-        ingredient = new String[validingredient.size()];
-        step  = new String[validstep.size()];
-        image  = new String[validimage.size()];
-        vid = new String[validid.size()];
-        fin = new Integer[size];
+        name = new String[validname.size()];ingredient = new String[validingredient.size()];
+        step  = new String[validstep.size()];image  = new String[validimage.size()];
+        vid = new String[validid.size()];video  = new String[validimage.size()];
+        lin  = new String[validimage.size()];fin = new Integer[size];
         for(int a=0;validname.size()>a;a++){
-            vid[a]=validid.get(a);
-            name[a]=validname.get(a);
-        ingredient[a]=validingredient.get(a);
-           step[a]=validstep.get(a);
-            image[a]=validid.get(a);
+            vid[a]=validid.get(a);name[a]=validname.get(a);ingredient[a]=validingredient.get(a);
+            step[a]=validstep.get(a);image[a]=validid.get(a);video[a]=validvideo.get(a);
+            lin[a]=validlink.get(a);
         }
         for(int b=0;b<size;b++){
             int num = Integer.parseInt(vid[b]);
             num = num-1;
             fin[b] = mThumbId[num];
         }
-
         closebutton.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v)
             {
-                Intent intent = new Intent(v.getContext(), Main2Activity.class);
-                startActivityForResult(intent, 0);
+                finish();
             }
         });
         for(int b=0;b<size;b++){
            String  vname= validid.get(b);
            mThumbIds[b]=Integer.parseInt(vname);
         }
-
         GridView gridview = (GridView) findViewById(R.id.gridview);
         gridview.setAdapter(new ImageAdapter(this,mThumbIds));
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                Toast.makeText(getBaseContext(), "" + position,
-                        Toast.LENGTH_SHORT).show();
-
                 Intent intent = new Intent(Main3Activity.this, Main4Activity.class);
                 intent.putExtra("image", fin[position]); // put image data in Intent
-
                 intent.putExtra("name", name[position]);
                 intent.putExtra("ingredient",ingredient[position]);
                 intent.putExtra("step",step[position]);
-
+                intent.putExtra("video",video[position]);
+                intent.putExtra("link",lin[position]);
                 startActivity(intent); // start Intent
             }
         });

@@ -29,6 +29,8 @@ public class Main2Activity extends AppCompatActivity {
     ArrayList<String> validingredient= new ArrayList<>();
     ArrayList<String> validstep= new ArrayList<>();
     ArrayList<String> validimage= new ArrayList<>();
+    ArrayList<String> validvideo= new ArrayList<>();
+    ArrayList<String> validlink= new ArrayList<>();
     EditText txt;
 
     ListView show;
@@ -59,32 +61,40 @@ public class Main2Activity extends AppCompatActivity {
                             String ingredient = table.getString(2);
                             String step = table.getString(3);
                             String image = table.getString(4);
+                            String video = table.getString(5);
+                            String link = table.getString(6);
+
                             for(int b=0;b<counta;b++){
+
                                 if(ingredient.contains(addArray.get(b).toLowerCase())){
                                     valid = valid+1;
                                     if(validid.contains(rid)==false){
-                                        if(valid>=2){
-                                            validid.add(rid);
-                                            validname.add(name);
-                                            validingredient.add(ingredient);
-                                            validstep.add(step);
-                                            validimage.add(image);
-                                            //  Toast.makeText(getBaseContext(), title,Toast.LENGTH_LONG).show();
+                                        if(valid>=3){
+                                            validid.add(rid);validname.add(name);validingredient.add(ingredient);
+                                            validstep.add(step);validimage.add(image);validvideo.add(video);
+                                            validlink.add(link);
                                         }
                                     }
-
                                 }
                             }valid=0;
                         }
+
+
                     Intent intent = new Intent(v.getContext(), Main3Activity.class);
                         intent.putExtra("validid", validid);
                         intent.putExtra("validname", validname);
                         intent.putExtra("validingredient", validingredient);
                         intent.putExtra("validstep", validstep);
                         intent.putExtra("validimage", validimage);
-                      //  Intent intent1 = new Intent(v.getContext(), ImageAdapter.class);
-                      //  intent.putExtra("validid", validid);
-                        startActivityForResult(intent, 0);
+                        intent.putExtra("validvideo", validvideo);
+                        intent.putExtra("validlink", validlink);
+                        if(validid.size()>0){
+                            startActivityForResult(intent, 0);
+                        }
+                        else{
+                            Toast.makeText(getBaseContext(), "No Recipe From Given Ingredients. Atleast 3 ingredients is needed",Toast.LENGTH_LONG).show();
+                        }
+
                     }else{
                         Toast.makeText(getBaseContext(), "enter ingredients first",Toast.LENGTH_LONG).show();
                     }
@@ -121,7 +131,7 @@ public class Main2Activity extends AppCompatActivity {
                         Toast.makeText(getBaseContext(), "INPUT FIELD IS EMPTY",Toast.LENGTH_LONG).show();
                     }
                     else{
-                        addArray.add(getInput);
+                        addArray.add(getInput.trim());
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>(Main2Activity.this,android.R.layout.simple_list_item_1, addArray);
                         show.setAdapter(adapter);
                         ((EditText)findViewById(R.id.editText)).setText(" ");
