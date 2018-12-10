@@ -4,6 +4,10 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -26,10 +30,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
@@ -39,12 +45,15 @@ import com.itextpdf.text.pdf.PdfIndirectObject;
 import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.itextpdf.text.Image.getInstance;
 
 public class Main5Activity extends AppCompatActivity {
     private static final String TAG = "PdfCreatorActivity";
@@ -55,9 +64,10 @@ public class Main5Activity extends AppCompatActivity {
     TextView name;
     ListView list,step;
     ArrayList<String> ing = new ArrayList<String>();
-    public String[] in,away,away1;
+    public String[] in,aw,aw1;
     ImageButton mCreateButton,imageButton,closebtn;
     String str,sname,video,link;
+    public int img;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,10 +84,24 @@ public class Main5Activity extends AppCompatActivity {
         name.setText(intent.getStringExtra("name"));
         sname=intent.getStringExtra("name");
         str = intent.getStringExtra("ingredient");
-        away =  str.split("\\s*%\\s*");
+        aw =  str.split("\\s*%\\s*");
+        //number
+        ArrayList<String> away = new ArrayList<String>();
+        for(int i = 0;i<aw.length;i++){
+            String awayy = "•   " + aw[i];
+            away.add(awayy);
+        }
         String str1 = intent.getStringExtra("step");
-         away1 =  str1.split("\\s*%\\s*");
+         aw1 =  str1.split("\\s*%\\s*");
+        //number
+        ArrayList<String> away1 = new ArrayList<String>();
+        for(int i = 0;i<aw1.length;i++){
+            String awayy = i+1+".  " + aw1[i];
+            away1.add(awayy);
+        }
 
+         img = intent.getIntExtra("image", 0);
+        String im= toString();
         ArrayAdapter adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,away );
         ArrayAdapter adapter1 = new ArrayAdapter<String>(this,
@@ -129,31 +153,7 @@ public class Main5Activity extends AppCompatActivity {
         intent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
         startActivity(Intent.createChooser(intent, "Choose sharing method"));
     }
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.share:
-
-                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-                sharingIntent.setType("text/plain");
-                String shareBodyText = link;
-                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,"Subject here");
-                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
-                startActivity(Intent.createChooser(sharingIntent, "Sharing Option"));
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-*/
 private void createPdfWrapper() throws FileNotFoundException,DocumentException{
         int hasWriteStoragePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (hasWriteStoragePermission != PackageManager.PERMISSION_GRANTED) {
@@ -224,29 +224,77 @@ private void createPdfWrapper() throws FileNotFoundException,DocumentException{
         Document document = new Document();
         PdfWriter writer =  PdfWriter.getInstance(document, output);
         document.open();
-        writer.setSpaceCharRatio(PdfWriter.NO_SPACE_CHAR_RATIO);
-        Paragraph paragraph = new Paragraph();
-        paragraph.setAlignment(Element.ALIGN_JUSTIFIED);
-        paragraph.setIndentationLeft(20);
-        paragraph.setIndentationRight(20);
-        paragraph.add(new Paragraph(sname));
-        paragraph.add(new Paragraph(Chunk.NEWLINE));
-        paragraph.add(new Paragraph("Ingredients"));
-        paragraph.add(new Paragraph(Chunk.NEWLINE));
-        for(int i=0;i<away.length;i++){
-            paragraph.add(new Paragraph(away[i]));
+
+        try {
+
+            Drawable d = getResources().getDrawable(img);
+            BitmapDrawable bitDw = ((BitmapDrawable) d);
+            Bitmap bmp = bitDw.getBitmap();
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp.compress( Bitmap.CompressFormat.JPEG, 100, stream);
+            Image image = getInstance(stream.toByteArray());
+            image.setAlignment(Element.ALIGN_CENTER);
+            image.scaleToFit(500f, 300f);
+            document.add(image);
+
+
+            // fonts
+            Font largeBold = new Font(Font.FontFamily.HELVETICA, 32,
+                    Font.BOLD);
+            Font mediumBOLD= new Font(Font.FontFamily.COURIER, 22,
+                    Font.BOLD);
+            Font smallBold = new Font(Font.FontFamily.COURIER, 12,
+                    Font.BOLD);
+            Font mediumItalic = new Font(Font.FontFamily.HELVETICA, 22,
+                    Font.ITALIC);
+            Font smallItalic = new Font(Font.FontFamily.HELVETICA, 12,
+                    Font.ITALIC);
+            Font redFont = new Font(Font.FontFamily.TIMES_ROMAN, 12,
+                    Font.ITALIC | Font.UNDERLINE, BaseColor.RED);
+
+            Paragraph paragraph = new Paragraph();
+            paragraph.setAlignment(Element.ALIGN_CENTER);
+            writer.setSpaceCharRatio(PdfWriter.NO_SPACE_CHAR_RATIO);
+
+
+            paragraph.add(new Paragraph(sname,largeBold));
             paragraph.add(new Paragraph(Chunk.NEWLINE));
-        }
-        paragraph.add(new Paragraph("Steps"));
-        paragraph.add(new Paragraph(Chunk.NEWLINE));
-        for(int i=0;i<away1.length;i++){
-            paragraph.add(new Paragraph(away1[i]));
+
+
             paragraph.add(new Paragraph(Chunk.NEWLINE));
+
+            paragraph.add(new Paragraph("Ingredients",mediumItalic));
+            paragraph.add(new Paragraph(Chunk.NEWLINE));
+
+            for(int i=0;i<aw.length;i++){
+
+                paragraph.add(new Paragraph("•  "+ aw[i],smallBold));
+                paragraph.add(new Paragraph(Chunk.NEWLINE));
+
+            }
+            paragraph.add(new Paragraph(Chunk.NEWLINE));
+            paragraph.add(new Paragraph(Chunk.NEWLINE));
+            paragraph.add(new Paragraph("Steps",mediumItalic));
+            paragraph.add(new Paragraph(Chunk.NEWLINE));
+
+
+            for(int i=0;i<aw1.length;i++){
+             int q = i +1;
+                paragraph.add(new Paragraph(q+".   "+aw1[i],smallBold));
+                paragraph.add(new Paragraph(Chunk.NEWLINE));
+            }
+
+            document.add(paragraph);
+            document.close();
+            previewPdf();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        document.add(paragraph);
-        document.close();
-        previewPdf();
+
+
+
+
     }
     private void previewPdf() {
 

@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.graphics.drawable.IconCompat;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -27,21 +28,31 @@ import static java.security.AccessController.getContext;
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
     Integer[] validid;
+    String [] name;
     int size;
-      public Integer[] fin;
+    public Integer[] fin;
+    public String[] vname;
 
 
-
-    public ImageAdapter(Context c,Integer[] myArrayList) {
+    public ImageAdapter(Context c,Integer[] myArrayList, ArrayList<String> gname) {
         mContext = c;
-         validid= myArrayList;
+
+         validid = myArrayList;
         size= myArrayList.length;
         fin = new Integer[size];
         for(int b=0;b<size;b++){
-            int num = validid[b];
+            int num = myArrayList[b];
             num = num-1;
             fin[b] = mThumbIds[num];
         }
+
+       int a=gname.size();
+
+        vname = new String[a];
+       for(int b=0;b<a;b++){
+            vname[b] = gname.get(b);
+       }
+
 
     }
 
@@ -62,29 +73,39 @@ public class ImageAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ImageView imageView;
-
+        View grid;
+        LayoutInflater inflater = (LayoutInflater) mContext
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
+
+            grid = new View(mContext);
+            grid = inflater.inflate(R.layout.mylist, null);
             // if it's not recycled, initialize some attributes
             imageView = new ImageView(mContext);
-
+            TextView textView = (TextView) grid.findViewById(R.id.grid_text);
+            imageView = (ImageView)grid.findViewById(R.id.grid_image);
+            textView.setText(vname[position]);
+            imageView.setImageResource(fin[position]);
             //size of image
-
-            imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 450));
-            imageView.requestLayout();
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            grid.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 450));
+           // imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 450));
+          //  imageView.requestLayout();
+         //   imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setPadding(8, 8, 8, 8);
 
 
         } else {
-            imageView = (ImageView) convertView;
+            grid = (View) convertView;
+        //    imageView = (ImageView) convertView;
 
         }
 
 
      //   Drawable myimage = getActivity().getResources();
-            imageView.setImageResource(fin[position]);
+          //  imageView.setImageResource(fin[position]);
 
-        return imageView;
+     //   return imageView;
+        return grid;
     }
 
 

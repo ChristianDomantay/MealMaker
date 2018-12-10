@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:id="@+id/rl01">
+        <TextView
+            android:layout_width= "wrap_content"
+            android:layout_height="50dp"
+            android:id="@+id/text01"
+            android:text="hello"
+            android:textSize="24dp"
+            android:textColor="@color/abc_search_url_text_normal"
+
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_toRightOf="@id/text01"
+            android:text="Press Me!"
+            />
+    </RelativeLayout>

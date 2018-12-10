@@ -26,6 +26,7 @@ public class Main3Activity extends AppCompatActivity {
     TextView myText;
 
     GridView gridView;
+    TextView textV;
     public Integer[] mThumbId = {
             R.drawable.chickencurry, R.drawable.chickenadobo,
             R.drawable.chickenmacaronisalad,R.drawable.pinoybeefsteak,
@@ -46,8 +47,9 @@ public class Main3Activity extends AppCompatActivity {
             R.drawable.sinigangnasalmonsamiso
     };
     public Integer[] fin;
-    public ArrayList<String> validname,validingredient,validstep,validimage,validid,validvideo,validlink;
-    String [] name,ingredient,step,image,vid,video,lin;
+    public ArrayList<String> validname,validingredient,validstep,validimage,validid,validvideo,validlink,list,validlist;
+    String [] name,ingredient,step,image,vid,video,lin,lis,vlis;
+    String yoko;
     //static final Integer[] mThumbIds = new Integer[]{};
     @SuppressWarnings("deprecation")
     @Override
@@ -59,6 +61,7 @@ public class Main3Activity extends AppCompatActivity {
         if (extras == null) return;
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         closebutton = (ImageButton) findViewById(R.id.closebtn);
+        textV = (TextView) findViewById(R.id.textView2);
         validid = (ArrayList<String>) getIntent().getSerializableExtra("validid");
         validname = (ArrayList<String>) getIntent().getSerializableExtra("validname");
         validingredient = (ArrayList<String>) getIntent().getSerializableExtra("validingredient");
@@ -66,13 +69,16 @@ public class Main3Activity extends AppCompatActivity {
         validimage = (ArrayList<String>) getIntent().getSerializableExtra("validimage");
         validvideo = (ArrayList<String>) getIntent().getSerializableExtra("validvideo");
         validlink = (ArrayList<String>) getIntent().getSerializableExtra("validlink");
-       int size = validid.size();
-
+       // validlist = (ArrayList<String>) validlist;
+        final List<String> validlist = new ArrayList<String>();
+        list = (ArrayList<String>) getIntent().getSerializableExtra("validlist");
+        int size = validid.size();
         final Integer [] mThumbIds = new Integer[validid.size()];
         name = new String[validname.size()];ingredient = new String[validingredient.size()];
         step  = new String[validstep.size()];image  = new String[validimage.size()];
         vid = new String[validid.size()];video  = new String[validimage.size()];
         lin  = new String[validimage.size()];fin = new Integer[size];
+        lis  = new String[list.size()];
         for(int a=0;validname.size()>a;a++){
             vid[a]=validid.get(a);name[a]=validname.get(a);ingredient[a]=validingredient.get(a);
             step[a]=validstep.get(a);image[a]=validid.get(a);video[a]=validvideo.get(a);
@@ -93,12 +99,25 @@ public class Main3Activity extends AppCompatActivity {
         for(int b=0;b<size;b++){
            String  vname= validid.get(b);
            mThumbIds[b]=Integer.parseInt(vname);
+
         }
+
+
+
+        for(int a=0;list.size()>a;a++){
+            lis[a]=list.get(a);
+        }
+
+
+
+      //  ImageAdapter adapter = new ImageAdapter(getActivity(), web, imageId);
         GridView gridview = (GridView) findViewById(R.id.gridview);
-        gridview.setAdapter(new ImageAdapter(this,mThumbIds));
+        gridview.setAdapter(new ImageAdapter(this,mThumbIds,validname));
+
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
+
                 Intent intent = new Intent(Main3Activity.this, Main4Activity.class);
                 intent.putExtra("image", fin[position]); // put image data in Intent
                 intent.putExtra("name", name[position]);
@@ -106,6 +125,7 @@ public class Main3Activity extends AppCompatActivity {
                 intent.putExtra("step",step[position]);
                 intent.putExtra("video",video[position]);
                 intent.putExtra("link",lin[position]);
+                intent.putExtra("validlist",(ArrayList<String>) getIntent().getSerializableExtra("validlist"));
                 startActivity(intent); // start Intent
             }
         });

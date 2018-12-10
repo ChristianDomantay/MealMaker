@@ -17,22 +17,26 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class Main4Activity extends AppCompatActivity {
 
 
     ImageView selectedImage;
     TextView name,ingredient,step;
     ListView list;
-    ArrayList<String> ing = new ArrayList<String>();
-    String[] in;
+    public ArrayList<String> validlist;
+    // public ArrayList<String> away = new ArrayList<String>();
+    String[] in,lis;
     String n,i,s,vi,l;
     int im;
     ImageButton closebutton,menu;
+    TextView textV;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main4);
+        textV = (TextView) findViewById(R.id.textView3);
         menu = (ImageButton) findViewById(R.id.imageView2);
         closebutton = (ImageButton) findViewById(R.id.closebtn);
         name = (TextView) findViewById(R.id.name);
@@ -47,8 +51,37 @@ public class Main4Activity extends AppCompatActivity {
         s =  intent.getStringExtra("step");
         vi =  intent.getStringExtra("video");
         l =  intent.getStringExtra("link");
+
+   //    validlist =  intent.getStringExtra("validlist");
+        validlist = (ArrayList<String>) getIntent().getSerializableExtra("validlist");
+       String [] lis  = new String[validlist.size()];
+        for(int a=0;validlist.size()>a;a++){
+            lis[a]=validlist.get(a);
+        }
+
+       // String [] liss =  lis.split("\\s*%\\s*");
         String str = intent.getStringExtra("ingredient");
-        String [] away =  str.split("\\s*%\\s*");
+        String [] aw =  str.split("\\s*%\\s*");
+      //number
+
+
+
+        ArrayList<String> away = new ArrayList<String>();
+        String awayy ="";
+        for(int i = 0;i<aw.length;i++){
+
+            outerloop:
+            for(int h = 0;h<validlist.size();h++){
+                    if (aw[i].contains(lis[h].toLowerCase())) {
+                        awayy = "☑️   " + aw[i];
+                        break outerloop;
+                    } else {
+                        awayy = "☐     " + aw[i];
+                    }
+                }
+            away.add(awayy);
+        }
+
 
         ArrayAdapter adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,away );

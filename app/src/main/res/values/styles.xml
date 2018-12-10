@@ -86,4 +86,8 @@
     <style name="ingredientline">
         <item name="android:color">@color/black</item>
     </style>
+
+    <style name="stepsTxt">
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

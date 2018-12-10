@@ -1,18 +1,24 @@
 package com.example.christian.mealmaker;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -20,7 +26,7 @@ import java.util.ArrayList;
 public class Main2Activity extends AppCompatActivity {
    DBHelper helper;
     Cursor table;
-
+ListView listView;
     ImageButton mButton;
     Button sButton;
     ArrayList<String> addArray = new ArrayList<String>();
@@ -31,6 +37,8 @@ public class Main2Activity extends AppCompatActivity {
     ArrayList<String> validimage= new ArrayList<>();
     ArrayList<String> validvideo= new ArrayList<>();
     ArrayList<String> validlink= new ArrayList<>();
+    ArrayList<String> validlist= new ArrayList<>();
+
     EditText txt;
 
     ListView show;
@@ -68,6 +76,7 @@ public class Main2Activity extends AppCompatActivity {
 
                                 if(ingredient.contains(addArray.get(b).toLowerCase())){
                                     valid = valid+1;
+                                  //  validlist.add(addArray.get(b).toLowerCase());
                                     if(validid.contains(rid)==false){
                                         if(valid>=3){
                                             validid.add(rid);validname.add(name);validingredient.add(ingredient);
@@ -88,6 +97,7 @@ public class Main2Activity extends AppCompatActivity {
                         intent.putExtra("validimage", validimage);
                         intent.putExtra("validvideo", validvideo);
                         intent.putExtra("validlink", validlink);
+                        intent.putExtra("validlist", addArray);
                         if(validid.size()>0){
                             startActivityForResult(intent, 0);
                         }
@@ -138,7 +148,23 @@ public class Main2Activity extends AppCompatActivity {
                     }
             }
         });
+
+        final ListView listview = (ListView) findViewById(R.id.listview);
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+
+                addArray.remove(position);
+                listview.invalidateViews();
+
+
+
+            }
+
+        });
     }
+
+
     public ArrayList<String> getArrayList(){
         return validid;
     }
